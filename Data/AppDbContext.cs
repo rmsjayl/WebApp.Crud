@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApp.Crud.Models;
+using WebApp.Crud.Models.Domain;
 
 namespace WebApp.Crud.Data
 {
