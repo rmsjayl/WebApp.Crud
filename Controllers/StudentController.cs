@@ -1,32 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApp.Crud.Data;
+using WebApp.Crud.Models.DTOs;
+using WebApp.Crud.Repositories.Interface;
 
 namespace WebApp.Crud.Controllers
 {
     [Route("api/[controller]")]
     public class StudentController : Controller
     {
+        private readonly IStudentRepository _studentRepository;
+
+        public StudentController(IStudentRepository studentRepository)
+        {
+            _studentRepository = studentRepository;
+        }
+
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get(StudentDto student)
         {
-            return Ok(new { Name = "John Doe", Age = 25 });
+            await _studentRepository.GetAllAsync();
+            return Ok(new { Message = "Get all students!" });
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody] string name)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            return Ok(new { Message = $"Student {name} created successfully!" });
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] string name)
-        {
-            return Ok(new { Message = $"Student {id} updated to {name}!" });
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            return Ok(new { Message = $"Student {id} deleted successfully!" });
+            var student = await _studentRepository.GetAsync(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return Ok(student);
         }
     }
 }
