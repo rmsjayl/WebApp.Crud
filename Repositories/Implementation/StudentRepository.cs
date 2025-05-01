@@ -25,7 +25,9 @@ namespace WebApp.Crud.Repositories.Implementation
 
         public Task<List<Student>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            //get all students
+            var students = _context.Students.ToList();
+            return Task.FromResult(students);
         }
 
         public Task<Student> GetAsync(int id)
