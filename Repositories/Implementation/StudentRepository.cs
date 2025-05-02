@@ -1,4 +1,6 @@
-﻿using WebApp.Crud.Data;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
+using WebApp.Crud.Data;
 using WebApp.Crud.Models.Domain;
 using WebApp.Crud.Repositories.Interface;
 
@@ -18,7 +20,7 @@ namespace WebApp.Crud.Repositories.Implementation
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public Task<bool> DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -30,12 +32,19 @@ namespace WebApp.Crud.Repositories.Implementation
             return Task.FromResult(students);
         }
 
-        public Task<Student> GetAsync(int id)
+        public async Task<Student> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var student = await _context.Students.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (student == null)
+            {
+                throw new Exception($"Student with an ID of {id} not found");
+            }
+
+            return student;
         }
 
-        public Task<Student> UpdateAsync(int id, Student student)
+        public Task<Student> UpdateAsync(Guid id, Student student)
         {
             throw new NotImplementedException();
         }
