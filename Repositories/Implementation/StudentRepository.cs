@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebApp.Crud.Data;
 using WebApp.Crud.Models.Domain;
+using WebApp.Crud.Models.DTOs;
 using WebApp.Crud.Repositories.Interface;
 
 namespace WebApp.Crud.Repositories.Implementation
@@ -15,9 +16,11 @@ namespace WebApp.Crud.Repositories.Implementation
             _context = context;
         }
 
-        public Task<Student> CreateAsync(Student student)
+        public async Task<Student> CreateAsync(Student student)
         {
-            throw new NotImplementedException();
+            await _context.Students.AddAsync(student);
+            await _context.SaveChangesAsync();
+            return student;
         }
 
         public Task<bool> DeleteAsync(Guid id)
@@ -25,11 +28,11 @@ namespace WebApp.Crud.Repositories.Implementation
             throw new NotImplementedException();
         }
 
-        public Task<List<Student>> GetAllAsync()
+        public async Task<IEnumerable<Student>> GetAllAsync()
         {
             //get all students
-            var students = _context.Students.ToList();
-            return Task.FromResult(students);
+            var students = await _context.Students.ToListAsync();
+            return students;
         }
 
         public async Task<Student> GetAsync(Guid id)
