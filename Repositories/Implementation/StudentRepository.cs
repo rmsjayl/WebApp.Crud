@@ -23,9 +23,20 @@ namespace WebApp.Crud.Repositories.Implementation
             return student;
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public async Task<Student> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+
+            var student = await _context.Students.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (student == null)
+            {
+                throw new Exception($"Student with an ID of {id} not found");
+            }
+
+            _context.Students.Remove(student);
+            await _context.SaveChangesAsync();
+
+            return student;
         }
 
         public async Task<IEnumerable<Student>> GetAllAsync()
