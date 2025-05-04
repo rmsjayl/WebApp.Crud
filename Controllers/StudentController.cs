@@ -75,6 +75,26 @@ namespace WebApp.Crud.Controllers
             return Ok(response);
 
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteStudent(Guid id)
+        {
+            var student = await _studentRepository.GetAsync(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _studentRepository.DeleteAsync(id);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
         protected void StudentDetailsNullChecker(Student student)
         {
             if (string.IsNullOrEmpty(student.FirstName) 
