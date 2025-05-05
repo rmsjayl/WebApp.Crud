@@ -6,7 +6,7 @@ namespace WebApp.Crud.Repositories.Interface
     {
         Task<Student> CreateAsync(Student student);
         Task<Student> GetAsync(Guid id);
-        Task<Student> UpdateAsync(Guid id, Student student);
+        Task<Student> UpdateAsync(Student student);
         Task<Student> DeleteAsync(Guid id);
         Task<IEnumerable<Student>> GetAllAsync();
     }
