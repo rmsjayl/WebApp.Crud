@@ -58,9 +58,19 @@ namespace WebApp.Crud.Repositories.Implementation
             return student;
         }
 
-        public Task<Student> UpdateAsync(Guid id, Student student)
+        public async Task<Student> UpdateAsync(Student student)
         {
-            throw new NotImplementedException();
+            var existingStudent = await _context.Students.FirstOrDefaultAsync(x => x.Id == student.Id);
+
+            if(existingStudent == null)
+            {
+                throw new Exception($"Student with an ID of {student.Id} not found");
+            }
+
+            _context.Entry(existingStudent).CurrentValues.SetValues(student);
+
+            await _context.SaveChangesAsync();
+            return student;
         }
     }
 }
