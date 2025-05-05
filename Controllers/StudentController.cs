@@ -5,6 +5,7 @@ using WebApp.Crud.Models.Domain;
 using WebApp.Crud.Models.DTOs;
 using WebApp.Crud.Repositories.Interface;
 
+
 namespace WebApp.Crud.Controllers
 {
     [Route("api/[controller]")]
@@ -59,8 +60,6 @@ namespace WebApp.Crud.Controllers
                 University = request.University,
             };
 
-            StudentDetailsNullChecker(student);
-
             var createdStudent = await _studentRepository.CreateAsync(student);
 
             var response = new CreateStudentDto
@@ -95,15 +94,27 @@ namespace WebApp.Crud.Controllers
             return Ok(result);
         }
 
-        protected void StudentDetailsNullChecker(Student student)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateStudent(Guid id, UpdateStudentDto request)
         {
-            if (string.IsNullOrEmpty(student.FirstName) 
-                || string.IsNullOrEmpty(student.LastName) 
-                || string.IsNullOrEmpty(student.University) 
-                || string.IsNullOrEmpty(student.Address))
+            var student = new Student
             {
-                throw new Exception("Student details cannot be null or empty");
+                Id = id,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Address = request.Address,
+                University = request.University,
+                CellPhoneNumber = request.CellPhoneNumber
+            };
+
+            var updatedStudent = await _studentRepository.UpdateAsync(student);
+
+            if (updatedStudent == null)
+            {
+                return NotFound();
             }
+
+            return Ok(updatedStudent);
         }
     }
 
