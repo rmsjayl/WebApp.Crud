@@ -12,10 +12,12 @@ namespace WebApp.Crud.Controllers
     public class StudentController : Controller
     {
         private readonly IStudentRepository _studentRepository;
+        private readonly Helpers _helpers;
 
-        public StudentController(IStudentRepository studentRepository)
+        public StudentController(IStudentRepository studentRepository, Helpers helpers)
         {
             _studentRepository = studentRepository;
+            _helpers = helpers;
         }
 
         [HttpGet]
@@ -67,6 +69,8 @@ namespace WebApp.Crud.Controllers
             };
 
             student = await _studentRepository.CreateAsync(student);
+
+            _helpers.PropNullChecker(student);
 
             var response = new StudentDto
             {
