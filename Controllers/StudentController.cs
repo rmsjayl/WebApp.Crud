@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
-using WebApp.Crud.Data;
 using WebApp.Crud.Models.Domain;
 using WebApp.Crud.Models.DTOs;
 using WebApp.Crud.Repositories.Interface;
+using WebApp.Crud.Shared;
 
 
 namespace WebApp.Crud.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     public class StudentController : Controller
     {
@@ -19,22 +19,27 @@ namespace WebApp.Crud.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(StudentDto request)
+        public async Task<IActionResult> Get()
         {
 
             var students = await _studentRepository.GetAllAsync();
             var response = new List<StudentDto>();
+
+            if (students == null || !students.Any())
+            {
+                return NotFound("No students found.");
+            }
 
             foreach (var student in students)
             {
                 var studentDto = new StudentDto
                 {
                     Id = student.Id,
-                    FirstName = student.FirstName,
-                    LastName = student.LastName,
-                    Address = student.Address,
-                    University = student.University,
-                    CellPhoneNumber = student.CellPhoneNumber
+                    FirstName = student.FirstName ?? string.Empty,
+                    LastName = student.LastName ?? string.Empty,
+                    Address = student.Address ?? string.Empty,
+                    University = student.University ?? string.Empty,
+                    CellPhoneNumber = student.CellPhoneNumber ?? string.Empty
                 };
                 response.Add(studentDto);
             }
@@ -58,17 +63,19 @@ namespace WebApp.Crud.Controllers
                 LastName = request.LastName,
                 Address = request.Address,
                 University = request.University,
+                CellPhoneNumber = request.CellPhoneNumber
             };
 
-            var createdStudent = await _studentRepository.CreateAsync(student);
+            student = await _studentRepository.CreateAsync(student);
 
-            var response = new CreateStudentDto
+            var response = new StudentDto
             {
-                FirstName = createdStudent.FirstName,
-                LastName = createdStudent.LastName,
-                Address = createdStudent.Address,
-                University = createdStudent.University,
-                CellPhoneNumber = createdStudent.CellPhoneNumber
+                Id = student.Id,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Address = student.Address,
+                University = student.University,
+                CellPhoneNumber = student.CellPhoneNumber
             };
 
             return Ok(response);
@@ -97,15 +104,17 @@ namespace WebApp.Crud.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStudent(Guid id, UpdateStudentDto request)
         {
-            var student = new Student
+            var student = await _studentRepository.GetAsync(id);
+            if (student == null)
             {
-                Id = id,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Address = request.Address,
-                University = request.University,
-                CellPhoneNumber = request.CellPhoneNumber
-            };
+                return NotFound();
+            }
+
+            student.FirstName = request.FirstName ?? student.FirstName;
+            student.LastName = request.LastName ?? student.LastName;
+            student.Address = request.Address ?? student.Address;
+            student.University = request.University ?? student.University;
+            student.CellPhoneNumber = request.CellPhoneNumber ?? student.CellPhoneNumber;
 
             var updatedStudent = await _studentRepository.UpdateAsync(student);
 
