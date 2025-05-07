@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApp.Crud.Data;
 using WebApp.Crud.Repositories.Implementation;
 using WebApp.Crud.Repositories.Interface;
+using WebApp.Crud.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<Helpers>();
 
 var app = builder.Build();
 
