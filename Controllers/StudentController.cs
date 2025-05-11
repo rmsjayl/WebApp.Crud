@@ -8,7 +8,7 @@ using WebApp.Crud.Shared;
 namespace WebApp.Crud.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("/api/[controller]")]
     public class StudentController : Controller
     {
         private readonly IStudentRepository _studentRepository;
@@ -25,7 +25,7 @@ namespace WebApp.Crud.Controllers
         {
 
             var students = await _studentRepository.GetAllAsync();
-            var response = new List<StudentDto>();
+             var response = new List<StudentDto>();
 
             if (students == null || !students.Any())
             {
@@ -46,7 +46,7 @@ namespace WebApp.Crud.Controllers
                 response.Add(studentDto);
             }
 
-            return Ok(response);
+            return View(response);
         }
 
         [HttpGet("{id}")]
