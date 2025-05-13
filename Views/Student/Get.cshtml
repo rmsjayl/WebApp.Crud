@@ -32,13 +32,10 @@
                     <td>@student.University</td>
                     <td>@student.CellPhoneNumber</td>
                     <td>
-                        <!-- Edit Button -->
-                        <a href="@Url.Action("Edit", "Students", new { id = student.Id })" class="btn btn-warning btn-sm">
+                        <a asp-area="" asp-controller="Student" asp-action="Edit" class="btn btn-warning btn-sm">
                             Edit
                         </a>
-
-                        <!-- Delete Button -->
-                        <a href="@Url.Action("Delete", "Students", new { id = student.Id })" class="btn btn-danger btn-sm">
+                        <a asp-area="" asp-controller="Student" asp-action="GetStudent" asp-route-id="@student.Id" class="btn btn-danger btn-sm">
                             Delete
                         </a>
                     </td>
