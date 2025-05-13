@@ -7,8 +7,6 @@ using WebApp.Crud.Shared;
 
 namespace WebApp.Crud.Controllers
 {
-    [ApiController]
-    [Route("/api/[controller]")]
     public class StudentController : Controller
     {
         private readonly IStudentRepository _studentRepository;
@@ -19,6 +17,16 @@ namespace WebApp.Crud.Controllers
             _studentRepository = studentRepository;
             _helpers = helpers;
         }
+
+        #region GET
+
+        #region Get VIEW
+        public IActionResult GetStudent(Guid id)
+        {
+            var student = _studentRepository.GetAsync(id);
+            return View(student);
+        }
+        #endregion
 
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -50,12 +58,14 @@ namespace WebApp.Crud.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> GetStudentId(Guid id)
         {
             var student = await _studentRepository.GetAsync(id);
             return Ok(student);
         }
+        #endregion
 
+        #region "POST"
         [HttpPost]
         public async Task<IActionResult> CreateStudent(CreateStudentDto request)
         {
@@ -85,6 +95,15 @@ namespace WebApp.Crud.Controllers
             return Ok(response);
 
         }
+        #endregion
+
+        #region "DELETE"
+        [HttpGet]
+        public IActionResult Delete(Guid id)
+        {
+            var student = _studentRepository.DeleteAsync(id);
+            return View(student);
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudent(Guid id)
@@ -103,6 +122,15 @@ namespace WebApp.Crud.Controllers
             }
 
             return Ok(result);
+        }
+        #endregion
+
+        #region "UPDATE"
+        
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var student = await _studentRepository.GetAsync(id);
+            return View(student);
         }
 
         [HttpPut("{id}")]
@@ -129,7 +157,6 @@ namespace WebApp.Crud.Controllers
 
             return Ok(updatedStudent);
         }
+        #endregion
     }
-
-
 }
