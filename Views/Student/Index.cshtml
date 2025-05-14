@@ -1,9 +1,48 @@
-﻿@{
+﻿@model List<WebApp.Crud.Models.DTOs.StudentDto>
+@{
     ViewData["Title"] = "Student Homepage";
+    @Html.Partial("_Modal");
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome!</h1>
-    <h1> Good morning student! </h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1> Student Details: </h1>
+    <div class="col-md-2">
+        <button class="btn btn-success" onclick="openModal()">
+            Add Details
+        </button>
+    </div>
+    <table class="table m-5">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">University</th>
+                <th scope="col">Cell Phone Number</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.Id</td>
+                    <td>@student.FirstName</td>
+                    <td>@student.LastName</td>
+                    <td>@student.University</td>
+                    <td>@student.CellPhoneNumber</td>
+                    <td>
+                        <a asp-area="" asp-controller="Student" asp-action="Edit" class="btn btn-warning btn-sm">
+                            Edit
+                        </a>
+                        <a asp-area="" asp-controller="Student" asp-action="Delete" asp-route-id="@student.Id" class="btn btn-danger btn-sm">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
+
+<script src="~/js/site.js" />

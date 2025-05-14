@@ -1,0 +1,15 @@
+﻿@model WebApp.Crud.Models.Domain.Student
+
+@{
+    ViewData["Title"] = "Get Student Details";
+}
+
+<h4>Are you sure you want to delete this student?</h4>
+
+<div class="container">
+    <form method="POST">
+        <label>Last Name</label>
+        <input value="@Model.LastName" />
+    </form>
+</div>
+
