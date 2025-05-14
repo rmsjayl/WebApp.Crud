@@ -4,5 +4,4 @@
 // Write your JavaScript code.
 function openModal() {
     $("#studentModal").modal("show");
-    $().modal("hide");
 }
