@@ -17,23 +17,13 @@ namespace WebApp.Crud.Controllers
             _studentRepository = studentRepository;
             _helpers = helpers;
         }
-
-        #region GET
-
-        #region Get VIEW
-        public IActionResult GetStudent(Guid id)
-        {
-            var student = _studentRepository.GetAsync(id);
-            return View(student);
-        }
-        #endregion
-
+        #region "GET"
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Index()
         {
 
             var students = await _studentRepository.GetAllAsync();
-             var response = new List<StudentDto>();
+            var response = new List<StudentDto>();
 
             if (students == null || !students.Any())
             {
@@ -55,13 +45,6 @@ namespace WebApp.Crud.Controllers
             }
 
             return View(response);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetStudentId(Guid id)
-        {
-            var student = await _studentRepository.GetAsync(id);
-            return Ok(student);
         }
         #endregion
 
@@ -97,11 +80,11 @@ namespace WebApp.Crud.Controllers
         }
         #endregion
 
-        #region "DELETE"
-        [HttpGet]
-        public IActionResult Delete(Guid id)
+        #region "DELETE" 
+        //FOR DELETE VIEW
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var student = _studentRepository.DeleteAsync(id);
+            var student = await _studentRepository.GetAsync(id);
             return View(student);
         }
 
@@ -126,7 +109,7 @@ namespace WebApp.Crud.Controllers
         #endregion
 
         #region "UPDATE"
-        
+
         public async Task<IActionResult> Edit(Guid id)
         {
             var student = await _studentRepository.GetAsync(id);
