@@ -7,7 +7,7 @@
 <div class="text-center">
     <h1> Student Details: </h1>
     <div class="col-md-2">
-        <button class="btn btn-success" onclick="openModal()">
+        <button class="btn btn-success" onclick="addModal()">
             Add Details
         </button>
     </div>
@@ -32,12 +32,12 @@
                     <td>@student.University</td>
                     <td>@student.CellPhoneNumber</td>
                     <td>
-                        <a asp-area="" asp-controller="Student" asp-action="Edit" class="btn btn-warning btn-sm">
+                        <button class="btn btn-warning btn-sm" onclick="openModal('@student.Id')">
                             Edit
-                        </a>
-                        <a asp-area="" asp-controller="Student" asp-action="Delete" asp-route-id="@student.Id" class="btn btn-danger btn-sm">
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteStudent('@student.Id')">
                             Delete
-                        </a>
+                        </button>
                     </td>
                 </tr>
             }
