@@ -25,11 +25,6 @@ namespace WebApp.Crud.Controllers
             var students = await _studentRepository.GetAllAsync();
             var response = new List<StudentDto>();
 
-            if (students == null || !students.Any())
-            {
-                return NotFound("No students found.");
-            }
-
             foreach (var student in students)
             {
                 var studentDto = new StudentDto
@@ -88,7 +83,8 @@ namespace WebApp.Crud.Controllers
             return View(student);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("/api/Student/{id}")]
         public async Task<IActionResult> DeleteStudent(Guid id)
         {
             var student = await _studentRepository.GetAsync(id);
