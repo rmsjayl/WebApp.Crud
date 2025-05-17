@@ -96,13 +96,6 @@ namespace WebApp.Crud.Controllers
         #endregion
 
         #region "DELETE" 
-        //FOR DELETE VIEW
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var student = await _studentRepository.GetAsync(id);
-            return View(student);
-        }
-
         [HttpDelete]
         [Route("/api/Student/{id}")]
         public async Task<IActionResult> DeleteStudent(Guid id)
@@ -125,15 +118,9 @@ namespace WebApp.Crud.Controllers
         #endregion
 
         #region "UPDATE"
-
-        public async Task<IActionResult> Edit(Guid id)
-        {
-            var student = await _studentRepository.GetAsync(id);
-            return View(student);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateStudent([FromBody] Guid id, UpdateStudentDto request)
+        [HttpPut]
+        [Route("api/Student/{id}")]
+        public async Task<IActionResult> UpdateStudent(Guid id, [FromBody] UpdateStudentDto request)
         {
             var student = await _studentRepository.GetAsync(id);
             if (student == null)
