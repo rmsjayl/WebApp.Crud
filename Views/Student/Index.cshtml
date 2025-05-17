@@ -32,7 +32,10 @@
                     <td>@student.University</td>
                     <td>@student.CellPhoneNumber</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="openModal('@student.Id')">
+                        <button class="btn btn-primary btn-sm" onclick="getStudent('@student.Id')">
+                            Details
+                        </button>
+                        <button class="btn btn-warning btn-sm" onclick="editModal('@student.Id')">
                             Edit
                         </button>
                         <button class="btn btn-danger btn-sm" onclick="deleteStudent('@student.Id')">
