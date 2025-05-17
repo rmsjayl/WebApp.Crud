@@ -7,7 +7,7 @@
 <div class="text-center">
     <h1> Student Details: </h1>
     <div class="col-md-2">
-        <button class="btn btn-success" onclick="openModal()">
+        <button class="btn btn-success" onclick="createStudent()">
             Add Details
         </button>
     </div>
@@ -30,6 +30,7 @@
                     <td>@student.FirstName</td>
                     <td>@student.LastName</td>
                     <td>@student.University</td>
+                    <td>@student.Address</td>
                     <td>@student.CellPhoneNumber</td>
                     <td>
                         <button class="btn btn-primary btn-sm" onclick="getStudent('@student.Id')">
