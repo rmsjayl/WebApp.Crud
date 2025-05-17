@@ -41,6 +41,25 @@ namespace WebApp.Crud.Controllers
 
             return View(response);
         }
+
+        [HttpGet]
+        [Route("api/Student/{id}")]
+        public async Task<IActionResult> GetStudent(Guid id)
+        {
+            var student = await _studentRepository.GetAsync(id);
+
+            var response = new StudentDto
+            {
+                Id = student.Id,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Address = student.Address,
+                CellPhoneNumber = student.CellPhoneNumber,
+                University = student.University,
+            };
+
+            return Ok(response);
+        }
         #endregion
 
         #region "POST"
