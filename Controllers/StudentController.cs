@@ -45,7 +45,8 @@ namespace WebApp.Crud.Controllers
 
         #region "POST"
         [HttpPost]
-        public async Task<IActionResult> CreateStudent(CreateStudentDto request)
+        [Route("/api/Student")]
+        public async Task<IActionResult> CreateStudent([FromBody] CreateStudentDto request)
         {
             var student = new Student
             {
@@ -113,7 +114,7 @@ namespace WebApp.Crud.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateStudent(Guid id, UpdateStudentDto request)
+        public async Task<IActionResult> UpdateStudent([FromBody] Guid id, UpdateStudentDto request)
         {
             var student = await _studentRepository.GetAsync(id);
             if (student == null)
